@@ -8,20 +8,51 @@ struct ContentView: View {
   @State private var users = [User]()
 
   var body: some View {
-    List {
-      ForEach(users, id: \.id) { user in
-        HStack {
-          Image(systemName: user.isActive ? "circle.fill" : "circle.slash")
-            .foregroundStyle(user.isActive ? .green : .black)
-            .font(.footnote)
-          Text(user.name)
-            .font(.headline)
+    NavigationStack {
+      List {
+        ForEach(users, id: \.id) { user in
+          Row(for: user)
         }
       }
+      .navigationTitle("Users")
     }
     .task {
       await fetchUsers()
     }
+  }
+}
+
+// MARK: - Row
+
+private extension ContentView {
+  struct Row: View {
+    let name: String
+    let isActive: Bool
+
+    private var statusColor: Color {
+      isActive ? .green : .black
+    }
+
+    private var statusSystemImageName: String {
+      isActive ? "circle.fill" : "circle.slash"
+    }
+
+    var body: some View {
+      HStack {
+        Image(systemName: statusSystemImageName)
+          .foregroundStyle(statusColor)
+          .font(.footnote)
+        Text(name)
+          .font(.headline)
+      }
+    }
+  }
+}
+
+private extension ContentView.Row {
+  init(for user: User) {
+    self.name = user.name
+    self.isActive = user.isActive
   }
 }
 
