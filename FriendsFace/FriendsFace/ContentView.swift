@@ -5,12 +5,19 @@
 import SwiftUI
 
 struct ContentView: View {
+  @State private var users = [User]()
+
   var body: some View {
-    VStack {
-      Image(systemName: "globe")
-        .imageScale(.large)
-        .foregroundStyle(.tint)
-      Text("Hello, world!")
+    List {
+      ForEach(users, id: \.id) { user in
+        HStack {
+          Image(systemName: user.isActive ? "circle.fill" : "circle.slash")
+            .foregroundStyle(user.isActive ? .green : .black)
+            .font(.footnote)
+          Text(user.name)
+            .font(.headline)
+        }
+      }
     }
     .task {
       await fetchUsers()
@@ -31,7 +38,7 @@ private extension ContentView {
       let decoder = JSONDecoder()
       decoder.dateDecodingStrategy = .iso8601
       let result = try decoder.decode([User].self, from: data)
-      print(result)
+      users = result
     } catch {
       return print(error)
     }
