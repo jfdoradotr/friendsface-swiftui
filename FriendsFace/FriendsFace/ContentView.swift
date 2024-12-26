@@ -22,7 +22,19 @@ struct ContentView: View {
 
 private extension ContentView {
   func fetchUsers() async {
+    guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
+      return
+    }
 
+    do {
+      let (data, _) = try await URLSession.shared.data(from: url)
+      let decoder = JSONDecoder()
+      decoder.dateDecodingStrategy = .iso8601
+      let result = try decoder.decode([User].self, from: data)
+      print(result)
+    } catch {
+      return print(error)
+    }
   }
 }
 

@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct User {
+struct User: Decodable {
   let id: UUID
   let isActive: Bool
   let name: String
