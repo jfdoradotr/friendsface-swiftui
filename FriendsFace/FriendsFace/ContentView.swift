@@ -2,10 +2,12 @@
 // Copyright © Juan Francisco Dorado Torres. All rights reserved.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-  @State private var users = [User]()
+  @Environment(\.modelContext) private var modelContext
+  @Query(sort: \User.name) private var users: [User]
 
   var body: some View {
     NavigationStack {
@@ -62,6 +64,10 @@ private extension ContentView.Row {
 
 private extension ContentView {
   func fetchUsers() async {
+    guard users.isEmpty else {
+      return print("No data has been fetched, using SwiftData cache")
+    }
+
     guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
       return
     }
@@ -71,7 +77,9 @@ private extension ContentView {
       let decoder = JSONDecoder()
       decoder.dateDecodingStrategy = .iso8601
       let result = try decoder.decode([User].self, from: data)
-      users = result
+      for item in result {
+        modelContext.insert(item)
+      }
     } catch {
       return print(error)
     }
