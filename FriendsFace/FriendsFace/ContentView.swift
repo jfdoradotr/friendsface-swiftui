@@ -34,17 +34,12 @@ private extension ContentView {
     let name: String
     let isActive: Bool
 
-    private var statusColor: Color {
-      isActive ? .green : .black
-    }
-
-    private var statusSystemImageName: String {
-      isActive ? "circle.fill" : "circle.slash"
-    }
+    private let statusIconName: String
+    private let statusColor: Color
 
     var body: some View {
       HStack {
-        Image(systemName: statusSystemImageName)
+        Image(systemName: statusIconName)
           .foregroundStyle(statusColor)
           .font(.footnote)
         Text(name)
@@ -58,6 +53,8 @@ private extension ContentView.Row {
   init(for user: User) {
     self.name = user.name
     self.isActive = user.isActive
+    self.statusIconName = user.statusSystemImageName
+    self.statusColor = user.statusColor
   }
 }
 

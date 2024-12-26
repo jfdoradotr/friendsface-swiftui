@@ -2,7 +2,7 @@
 // Copyright © Juan Francisco Dorado Torres. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 struct User: Hashable, Decodable {
   let id: UUID
@@ -16,4 +16,15 @@ struct User: Hashable, Decodable {
   let registered: Date
   let tags: [String]
   let friends: [Friend]
+}
+
+extension User {
+  var statusColor: Color {
+    isActive ? .green : .black
+  }
+
+  var statusSystemImageName: String {
+    isActive ? "circle.fill" : "circle.slash"
+  }
+
 }

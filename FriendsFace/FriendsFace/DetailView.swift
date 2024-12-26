@@ -8,10 +8,28 @@ struct DetailView: View {
   let user: User
 
   var body: some View {
-    Text("DetailView")
+    Form {
+
+    }
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        HStack {
+          Text(user.name)
+            .font(.subheadline)
+          Image(systemName: user.statusSystemImageName)
+            .foregroundStyle(user.statusColor)
+            .font(.footnote)
+        }
+      }
+    }
   }
 }
 
+// MARK: - Preview
+
 #Preview {
-  DetailView(user: .preview)
+  NavigationStack {
+    DetailView(user: .preview)
+  }
 }
