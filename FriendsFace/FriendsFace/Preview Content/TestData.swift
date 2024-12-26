@@ -5,7 +5,7 @@
 import Foundation
 
 extension User {
-  static let user = User(
+  static let preview = User(
     id: UUID(uuidString: "50a48fa3-2c0f-4397-ac50-64da464f9954")!,
     isActive: false,
     name: "Alford Rodriguez",
