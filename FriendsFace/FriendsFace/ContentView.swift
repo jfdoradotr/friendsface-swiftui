@@ -12,9 +12,21 @@ struct ContentView: View {
         .foregroundStyle(.tint)
       Text("Hello, world!")
     }
-    .padding()
+    .task {
+      await fetchUsers()
+    }
   }
 }
+
+// MARK: - Private
+
+private extension ContentView {
+  func fetchUsers() async {
+
+  }
+}
+
+// MARK: - Previews
 
 #Preview {
   ContentView()
