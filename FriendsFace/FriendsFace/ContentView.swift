@@ -11,13 +11,18 @@ struct ContentView: View {
     NavigationStack {
       List {
         ForEach(users, id: \.id) { user in
-          Row(for: user)
+          NavigationLink(value: user) {
+            Row(for: user)
+          }
         }
       }
+      .task {
+        await fetchUsers()
+      }
       .navigationTitle("Users")
-    }
-    .task {
-      await fetchUsers()
+      .navigationDestination(for: User.self) { user in
+        Text(user.name)
+      }
     }
   }
 }
